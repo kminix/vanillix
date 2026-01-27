@@ -4,6 +4,7 @@ namespace App\Support;
 
 class Response
 {
+    //test
     private string $content;
     private int $status;
     private array $headers;
