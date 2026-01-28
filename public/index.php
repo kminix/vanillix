@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Support\Request;
 use App\Support\Response;
+use App\Routing\Router;
 use Dotenv\Dotenv;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
@@ -27,10 +28,11 @@ $config = require dirname(__DIR__) . '/config/app.php';
 session_start();
 
 $request = Request::capture();
-
-$response = new Response(
-    'Loaded', 
-    200
-);
+echo "<pre>";
+var_dump($request);
+echo "</pre>";
+$router = new Router();
+require dirname(__DIR__) . '/routes/web.php';
+$response = $router->dispatch($request);
 
 $response->send();
