@@ -1,34 +1,44 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Support;
 
-class Response
+final class Response
 {
-    private string $content;
-    private int $status;
-    private array $headers;
-
     public function __construct(
-        string $content = '',
-        int $status = 200,
-        array $headers = []
-    ){
-        $this->content = $content;
-        $this->status = $status;
-        $this->headers = $headers;
+        private string $content = '',
+        private int $status = 200,
+        private array $headers = []
+    ) {}
 
+    public static function html(string $html, int $status = 200): self
+    {
+        return new self($html, $status, ['Content-Type' => 'text/html; charset=UTF-8']);
+    }
+
+    public static function redirect(string $to, int $status = 302): self
+    {
+        return new self('', $status, ['Location' => $to]);
     }
 
     public function send(): void
     {
         http_response_code($this->status);
 
-        foreach($this->headers as $name => $value) {
-            header("$name: $value");
+        foreach ($this->headers as $name => $value) {
+            header("{$name}: {$value}");
         }
 
         echo $this->content;
     }
 
-
+    public static function json(array $data, int $status = 200): self
+    {
+        return new self(
+            json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
+            $status,
+            ['Content-Type' => 'application/json; charset=UTF-8']
+        );
+    }
 }
