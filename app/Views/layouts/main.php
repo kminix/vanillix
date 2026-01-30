@@ -32,5 +32,42 @@
 <main>
   <?= $content ?>
 </main>
+
+<script>
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('.stars[data-readonly="0"] .star');
+  if (!btn) return;
+
+  const starsEl = btn.closest('.stars');
+  const imageId = starsEl.getAttribute('data-image-id');
+  const value = btn.getAttribute('data-star');
+
+  if (!imageId || !value) return;
+
+  // Optimistic UI: highlight stars immediately
+  const starButtons = starsEl.querySelectorAll('.star');
+  starButtons.forEach(b => {
+    const n = parseInt(b.getAttribute('data-star'), 10);
+    b.classList.remove('star--empty', 'star--half', 'star--full');
+    b.classList.add(n <= value ? 'star--full' : 'star--empty');
+  });
+
+  try {
+    const res = await fetch('/ratings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ image_id: imageId, stars: value })
+    });
+
+    if (!res.ok) {
+      console.error('Rating failed:', res.status);
+      // (Later) revert UI or show flash message
+    }
+  } catch (err) {
+    console.error('Network error:', err);
+  }
+});
+</script>
+
 </body>
 </html>

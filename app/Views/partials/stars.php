@@ -1,4 +1,4 @@
-<?
+<?php
 declare(strict_types=1);
 
 /**
@@ -9,15 +9,14 @@ declare(strict_types=1);
  * - $imageId (int|null)  Needed for clickable mode
  */
 
-$value = $value ?? 0;
-$max = $max ?? 5;
+$value    = $value ?? 0;
+$max      = $max ?? 5;
 $readonly = $readonly ?? true;
-$imageId = $imageId ?? null;
+$imageId  = $imageId ?? null;
 
 $filled = (int) floor((float)$value);
-$half = ((float)$value - $filled) >= .05;
+$half   = ((float)$value - $filled) >= 0.5;
 ?>
-
 <span class="stars"
       data-readonly="<?= $readonly ? '1' : '0' ?>"
       data-image-id="<?= $imageId !== null ? (int)$imageId : '' ?>">

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Support;
@@ -30,5 +31,14 @@ final class Response
         }
 
         echo $this->content;
+    }
+
+    public static function json(array $data, int $status = 200): self
+    {
+        return new self(
+            json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
+            $status,
+            ['Content-Type' => 'application/json; charset=UTF-8']
+        );
     }
 }
