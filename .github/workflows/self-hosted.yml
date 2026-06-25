@@ -11,8 +11,5 @@ jobs:
 
     steps:
       - name: Deploy
-        run: |
-          cd /var/www/vanillix
-          git pull
-          composer install --no-dev
-          
+        run: /var/www/scripts/deploy-vanillix.sh
+    
