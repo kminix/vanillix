@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Deploy
         run: |
-          cd /var/www/minixmanor
+          cd /var/www/vanillix
           git pull
           composer install --no-dev
-          php artisan optimize
+          
