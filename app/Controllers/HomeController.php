@@ -15,7 +15,7 @@ final class HomeController
         $html = View::render('home.index', [
             'title' => 'Home',
             'heading' => 'Home',
-            'message' => 'Is in progress'
+            'message' => 'Is coming along'
         ]);
         return  Response::html($html);
     }
